@@ -3,11 +3,11 @@ import { Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 class Deck extends React.Component {
   render() {
-    const { title, cards } = this.props;
+    const { name, cards } = this.props;
 
     return (
       <TouchableOpacity style={styles.container}>
-        <Text>{title}</Text>
+        <Text>{name}</Text>
         <Text>{cards.length} cards</Text>
       </TouchableOpacity>
     );

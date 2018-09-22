@@ -1,19 +1,28 @@
+import { AsyncStorage } from 'react-native';
+
 const DECKS_KEY = 'DECKS_KEY';
 
 export const getDecksFromStorage = async () => {
   try {
-    // FIXME: enable once deck creation is done
-    // const decksJSON = await AsyncStorage.getItem(DECKS_KEY);
-    // return JSON.parse(decksJSON);
-    return Promise.resolve(mockData);
+    const decksJSON = await AsyncStorage.getItem(DECKS_KEY);
+    return JSON.parse(decksJSON);
   } catch (error) {
     console.log('Error retrieving decks from local storage', error);
     throw error;
   }
-}
+};
 
-const mockData = [
-  { id: 1, title: 'deck1', cards: new Array(3) },
-  { id: 2, title: 'deck2', cards: new Array(5) },
-  { id: 3, title: 'deck3', cards: new Array(20) },
-]
+export const addNewDeck = async (newDeck) => {
+  try {
+    const decksJSON = await AsyncStorage.getItem(DECKS_KEY);
+    const decks = JSON.parse(decksJSON);
+
+    return AsyncStorage.setItem(DECKS_KEY, JSON.stringify({
+      [newDeck.id]: newDeck,
+      ...decks
+    }));
+  } catch (error) {
+    console.log('Error setting new deck in local storage', error);
+    throw error;
+  }
+};

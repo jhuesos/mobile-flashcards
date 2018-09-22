@@ -15,7 +15,7 @@ class Decks extends React.Component {
 
     return (
       <View>
-        {decks.map(deck => (<Deck key={deck.id} title={deck.title} cards={deck.cards}></Deck>))}
+        {Object.values(decks).map(deck => (<Deck key={deck.id} name={deck.name} cards={deck.cards}></Deck>))}
       </View>
     );
   }
