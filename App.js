@@ -1,20 +1,16 @@
 import React from 'react';
-import { StyleSheet, Text, View, StatusBar } from 'react-native';
-import { createBottomTabNavigator } from 'react-navigation';
+import { View, StyleSheet } from 'react-native';
+
 import { Constants } from 'expo';
 import { Provider } from 'react-redux';
 
-import NewDeck from './views/NewDeck';
-import Decks from './views/Decks';
+import Navigation from './navigation';
 import store from './store';
 
-const Tabs = createBottomTabNavigator({
-  Decks: {
-    screen: Decks
-  },
-  NewDeck: {
-    screen: NewDeck
-  },
+const styles = StyleSheet.create({
+  navigation: {
+    flex: 1,
+  }
 });
 
 export default class App extends React.Component {
@@ -22,10 +18,7 @@ export default class App extends React.Component {
     return (
       <Provider store={store}>
         <View style={{ flex: 1 }}>
-          <View style={{ height: Constants.statusBarHeight }}>
-            <StatusBar translucent></StatusBar>
-          </View>
-          <Tabs></Tabs>
+          <Navigation style={styles.navigation}></Navigation>
         </View>
       </Provider>
     );

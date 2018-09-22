@@ -8,13 +8,14 @@ class NewDecks extends React.Component {
     name: ''
   }
 
-  _handleSubmit = () => {
-    const { dispatch } = this.props;
+  handleSubmit = () => {
+    const { dispatch, navigation: { navigate } } = this.props;
 
     dispatch(handleCreateDeck({ name: this.state.name }));
 
-    this.setState({name: ''});
-    this.props.navigation.navigate('Decks');
+    this.setState({ name: '' });
+
+    navigate('Decks');
   }
 
   render() {
@@ -34,7 +35,7 @@ class NewDecks extends React.Component {
         <TouchableNativeFeedback
           background={TouchableNativeFeedback.SelectableBackground()}
           style={styles.button}
-          onPress={this._handleSubmit}
+          onPress={this.handleSubmit}
           disabled={this.state.name.trim() === ''}
         >
           <View>
