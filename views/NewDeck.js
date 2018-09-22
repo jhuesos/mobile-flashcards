@@ -1,7 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableNativeFeedback } from 'react-native';
 import { connect } from 'react-redux';
+import { NavigationActions } from 'react-navigation';
+
 import { handleCreateDeck } from '../actions/index';
+import { primary } from '../util/colors';
 
 class NewDecks extends React.Component {
   state = {
@@ -10,12 +13,16 @@ class NewDecks extends React.Component {
 
   handleSubmit = () => {
     const { dispatch, navigation: { navigate } } = this.props;
+    const { name } = this.state;
 
-    dispatch(handleCreateDeck({ name: this.state.name }));
+    dispatch(handleCreateDeck({ name })).then(({ id }) => {
+      navigate({
+        routeName: 'Decks',
+        action: NavigationActions.navigate({ routeName: 'DeckDetail', params: { deckId: id } }),
+      });
+    });
 
     this.setState({ name: '' });
-
-    navigate('Decks');
   }
 
   render() {
@@ -30,16 +37,13 @@ class NewDecks extends React.Component {
           value={this.state.name}
         ></TextInput>
 
-        <Text>{this.state.name}</Text>
-
         <TouchableNativeFeedback
           background={TouchableNativeFeedback.SelectableBackground()}
-          style={styles.button}
           onPress={this.handleSubmit}
           disabled={this.state.name.trim() === ''}
         >
           <View>
-            <Text>Submit</Text>
+            <Text style={styles.button}>Submit</Text>
           </View>
         </TouchableNativeFeedback>
       </View>
@@ -50,19 +54,27 @@ class NewDecks extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
     padding: 48,
     alignItems: 'center',
 
   },
   title: {
     fontSize: 40,
+    marginVertical: 24,
   },
   input: {
-    height: 50,
-    width: '100%'
+    height: 56,
+    width: '100%',
+    fontSize: 24,
   },
   button: {
-    padding: '8 16',
+    color: 'white',
+    fontSize: 18,
+    marginVertical: 24,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    backgroundColor: primary
   }
 });
 

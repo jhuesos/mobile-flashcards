@@ -30,4 +30,6 @@ export const handleCreateDeck = ({ name }) => (dispatch) => {
 
   addNewDeck(newDeck);
   dispatch(deckCreated(newDeck));
+
+  return Promise.resolve(newDeck);
 };
