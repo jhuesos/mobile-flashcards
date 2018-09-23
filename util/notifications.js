@@ -17,45 +17,41 @@ const getReminderNotification = () => ({
   }
 });
 
-export const clearNotificationReminder = async () => {
-  const _ = await AsyncStorage.removeItem(NOTIFICATIONS_KEY);
-  return Notifications.cancelAllScheduledNotificationsAsync();
+export const clearNotificationReminder = () => {
+  AsyncStorage.removeItem(NOTIFICATIONS_KEY)
+    .then(Notifications.cancelAllScheduledNotificationsAsync);
 };
 
 export const setNotificationReminder = () => {
-  try {
-    const notificationJSON = await AsyncStorage.getItem(NOTIFICATIONS_KEY);
-    const notification = JSON.parse(notificationJSON);
+  return AsyncStorage.getItem(NOTIFICATIONS_KEY)
+    .then(JSON.parse)
+    .then((notification) => {
+      const wasNotificationSet = notification !== null;
 
-    const wasNotificationSet = notification !== null;
-
-    if (wasNotificationSet) {
-      return;
-    }
-
-    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-
-    if (status !== 'granted') {
-      return;
-    }
-
-    Notifications.cancelAllScheduledNotificationsAsync();
-
-    let tomorrow = new Date()
-    tomorrow.setDate(tomorrow.getDate() + 1)
-    tomorrow.setHours(20)
-    tomorrow.setMinutes(0);
-
-    Notifications.scheduleLocalNotificationAsync(
-      getReminderNotification(),
-      {
-        time: tomorrow,
-        repeat: 'day'
+      if (wasNotificationSet) {
+        return;
       }
-    );
 
-    return AsyncStorage.setItem(NOTIFICATIONS_KEY, JSON.stringify(true));
-  } catch (error) {
-    console.log('An error ocurred while setting notification', error);
-  }
+      Permissions.askAsync(Permissions.NOTIFICATIONS)
+        .then(({ status }) => {
+          if (status === 'granted') {
+            Notifications.cancelAllScheduledNotificationsAsync();
+
+            let tomorrow = new Date()
+            tomorrow.setDate(tomorrow.getDate() + 1)
+            tomorrow.setHours(20)
+            tomorrow.setMinutes(0);
+
+            Notifications.scheduleLocalNotificationAsync(
+              getReminderNotification(),
+              {
+                time: tomorrow,
+                repeat: 'day'
+              }
+            );
+
+            return AsyncStorage.setItem(NOTIFICATIONS_KEY, JSON.stringify(true));
+          }
+        });
+    });
 };
