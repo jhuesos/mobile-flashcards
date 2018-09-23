@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import { handleGetDecks } from '../actions';
 
@@ -24,18 +24,21 @@ class Decks extends React.Component {
     const { decks } = this.props;
 
     return (
-      <View>
-        {Object.values(decks).map(deck => (
+      <FlatList
+        data={Object.values(decks)}
+        keyExtractor={item => item.id}
+        renderItem={({ item }) => (
           <TouchableOpacity
-            key={deck.id}
+            key={item.id}
             style={styles.container}
-            onPress={() => this.openDetails(deck.id)}
+            onPress={() => this.openDetails(item.id)}
           >
-            <Text>{deck.name}</Text>
-            <Text>{deck.cards.length} cards</Text>
+            <Text>{item.name}</Text>
+            <Text>{item.cards.length} cards</Text>
           </TouchableOpacity>
-        ))}
-      </View>
+        )}
+      >
+      </FlatList>
     );
   }
 }
