@@ -12,15 +12,9 @@ export const getDecksFromStorage = async () => {
   }
 };
 
-export const addNewDeck = async (newDeck) => {
+export const saveDecks = async (decks) => {
   try {
-    const decksJSON = await AsyncStorage.getItem(DECKS_KEY);
-    const decks = JSON.parse(decksJSON);
-
-    return AsyncStorage.setItem(DECKS_KEY, JSON.stringify({
-      [newDeck.id]: newDeck,
-      ...decks
-    }));
+    return AsyncStorage.setItem(DECKS_KEY, JSON.stringify(decks));
   } catch (error) {
     console.log('Error setting new deck in local storage', error);
     throw error;

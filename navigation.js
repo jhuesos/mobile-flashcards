@@ -5,6 +5,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import NewDeckScreen from './views/NewDeck';
 import DecksScreen from './views/Decks';
 import DeckScreen from './views/DeckDetail';
+import AddCardScreen from './views/AddCard';
+import QuizScreen from './views/Quiz';
 import { primary } from './util/colors';
 
 const DecksStack = createStackNavigator(
@@ -12,13 +14,25 @@ const DecksStack = createStackNavigator(
     Decks: {
       screen: DecksScreen,
       navigationOptions: {
-        title: 'Decks'
+        title: 'Awesome Mobile Flashcards'
       }
     },
     DeckDetail: {
       screen: DeckScreen,
       navigationOptions: {
         title: 'Deck details'
+      }
+    },
+    AddCard: {
+      screen: AddCardScreen,
+      navigationOptions: {
+        title: 'Add card'
+      }
+    },
+    Quiz: {
+      screen: QuizScreen,
+      navigationOptions: {
+        title: 'Quiz'
       }
     },
   },
