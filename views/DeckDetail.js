@@ -2,10 +2,15 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableNativeFeedback } from 'react-native';
 import { connect } from 'react-redux';
 import { primary } from '../util/colors';
+import {clearNotificationReminder, setNotificationReminder} from '../util/notifications';
 
 class Deck extends React.Component {
   handleNavigation = (routeName) => {
     const { navigation: { navigate }, deck: { id } } = this.props;
+
+    if (routeName === 'Quiz') {
+      clearNotificationReminder().then(setNotificationReminder);
+    }
 
     navigate({ routeName: routeName, params: { deckId: id } });
   }

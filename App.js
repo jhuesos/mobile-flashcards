@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 
 import Navigation from './navigation';
 import store from './store';
+import { setNotificationReminder } from './util/notifications';
 
 const styles = StyleSheet.create({
   navigation: {
@@ -14,6 +15,10 @@ const styles = StyleSheet.create({
 });
 
 export default class App extends React.Component {
+  componentDidMount() {
+    setNotificationReminder();
+  }
+
   render() {
     return (
       <Provider store={store}>
