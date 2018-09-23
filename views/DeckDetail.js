@@ -12,6 +12,7 @@ class Deck extends React.Component {
 
   render() {
     const { name, cards } = this.props.deck;
+    const isDeckEmpty = cards.length === 0;
 
     return (
       <View style={styles.container}>
@@ -32,9 +33,10 @@ class Deck extends React.Component {
           <TouchableNativeFeedback
             background={TouchableNativeFeedback.SelectableBackground()}
             onPress={() => this.handleNavigation('Quiz')}
+            disabled={isDeckEmpty}
           >
             <View>
-              <Text style={styles.buttonPrimary}>Start Quiz</Text>
+              <Text style={[styles.buttonPrimary, isDeckEmpty && styles.disabled]}>Start Quiz</Text>
             </View>
           </TouchableNativeFeedback>
         </View>
@@ -77,6 +79,10 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 16,
     backgroundColor: primary
+  },
+
+  disabled: {
+    opacity: 0.3
   },
 
   buttonSecondary: {

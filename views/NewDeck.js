@@ -26,6 +26,8 @@ class NewDecks extends React.Component {
   }
 
   render() {
+    const isFormInvalid = this.state.name.trim() === '';
+
     return (
       <View style={styles.container}>
         <Text style={styles.title}>What's the title of your new deck?</Text>
@@ -40,10 +42,10 @@ class NewDecks extends React.Component {
         <TouchableNativeFeedback
           background={TouchableNativeFeedback.SelectableBackground()}
           onPress={this.handleSubmit}
-          disabled={this.state.name.trim() === ''}
+          disabled={isFormInvalid}
         >
           <View>
-            <Text style={styles.button}>Submit</Text>
+            <Text style={[styles.button, isFormInvalid && styles.disabled]}>Submit</Text>
           </View>
         </TouchableNativeFeedback>
       </View>
@@ -75,6 +77,9 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 16,
     backgroundColor: primary
+  },
+  disabled: {
+    opacity: 0.3
   }
 });
 
