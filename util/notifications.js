@@ -18,7 +18,8 @@ const getReminderNotification = () => ({
 });
 
 export const clearNotificationReminder = () => {
-  AsyncStorage.removeItem(NOTIFICATIONS_KEY)
+  return AsyncStorage
+    .removeItem(NOTIFICATIONS_KEY)
     .then(Notifications.cancelAllScheduledNotificationsAsync);
 };
 
